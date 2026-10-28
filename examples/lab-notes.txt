@@ -1,0 +1,78 @@
+The lab — one real install, one machine, nobody else's network
+====================================================================
+
+The lab is Mosh as the official Ubuntu
+archive ships it, on the build machine
+(an Ubuntu 24.04 sandbox, 2 CPUs,
+7.7 GB RAM):
+
+  * Mosh 1.4.0 (package 1.4.0-1ubuntu3),
+    fetched with `apt-get download` and
+    unpacked with `dpkg -x` into a
+    scratch folder, because the build
+    machine's package system was busy
+    elsewhere. Nothing was installed
+    system-wide. Every library the
+    package needs was already on the
+    machine; one recommended Perl module
+    (libio-socket-ip-perl) was fetched
+    the same way.
+  * Both halves of the program were run:
+    `mosh-server` for real, repeatedly;
+    `mosh-client` for real, in a
+    terminal, against that server.
+
+What the lab ran, in
+mosh-lab/transcripts/:
+
+  * t00-version.txt — `mosh --version`
+    and the package candidate: the
+    genuine 1.4.0 banner.
+  * t01-server-start.txt —
+    `mosh-server new` printing its
+    MOSH CONNECT line, detaching, and
+    listening on UDP 60001 per `ss`.
+    This is the server half of the
+    handshake, run by hand exactly as
+    the wrapper runs it over SSH.
+  * t02-client-connect-attempt.txt —
+    the real client, given the key from
+    t01, trying to reach the server —
+    and failing, because this sandbox
+    refuses every UDP send, even to
+    127.0.0.1, even inside a fresh
+    network namespace (a five-line
+    Python proof is in the transcript).
+    The client's messages are kept
+    verbatim: they are the exact
+    symptoms chapter 12 teaches for a
+    firewalled UDP port.
+  * t03-locale.txt — `mosh-server`
+    under a POSIX locale refusing to
+    run, listing every variable it
+    inspected. The refusal is total
+    and the wording is the program's.
+
+What the lab could NOT run:
+
+  * A completed session. UDP is the
+    session's only transport, and the
+    sandbox blocks UDP outright, so
+    typing, roaming, sleep survival
+    and local echo (chapters 5-6) are
+    documented-only, from the
+    project's documentation and the
+    programs' own usage text.
+  * The SSH bootstrap end-to-end: no
+    SSH server runs on the build
+    machine. The server the wrapper
+    would start was run by hand (t01)
+    instead; the wrapper's behaviour
+    is described from the docs.
+
+One session key appears in t01. It
+belonged to a throwaway server on a
+sealed machine, started for the
+transcript and stopped immediately
+after. Chapter 11 explains why a real
+one must be treated as a password.

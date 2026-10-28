@@ -1,0 +1,45 @@
+Mosh — the distilled commands
+====================================================================
+Placeholders: <host> is a machine you have an account on;
+<port> is a UDP port number; <key> is a session key.
+
+INSTALL (chapters 3)
+--------------------------------------------------------------------
+  sudo apt install mosh            # Debian/Ubuntu, BOTH ends
+  brew install mosh                # macOS (the typing end)
+  mosh --version                   # the check that it landed
+  locale                           # every line should say UTF-8
+
+CONNECTING (chapters 4-5)
+--------------------------------------------------------------------
+  mosh you@<host>                  # the whole ceremony
+  mosh you@<host> -- tmux attach   # land in tmux on the far end
+  mosh -p <port> you@<host>        # pin the session to one port
+  mosh --predict=always you@<host> # predict on the worst links
+  mosh --predict=never you@<host>  # no prediction, SSH-style echo
+
+  # inside a session:
+  Ctrl-^ .                         # end the session (client side)
+  Ctrl-^ Ctrl-Z                    # suspend the client; fg returns
+  Ctrl-^ Ctrl-^                    # one literal Ctrl-^ to the server
+
+BY HAND, ONCE, TO SEE THE PARTS (chapters 2, 4)
+--------------------------------------------------------------------
+  mosh-server new                  # on the server, over plain SSH
+  # prints: MOSH CONNECT <port> <key>   -- the key is a password;
+  # do not paste it anywhere it will be kept.
+  MOSH_KEY=<key> mosh-client <host> <port>
+  ss -lunp | grep mosh-server      # one listening line per session
+
+THE SERVER SIDE (chapters 8, 11)
+--------------------------------------------------------------------
+  sudo ufw allow mosh              # UDP 60000:61000, via the
+                                   # profile the package ships
+  pkill -u "$USER" mosh-server     # clear out orphaned servers
+                                   # (ends YOUR live sessions too)
+
+TUNING (chapter 6)
+--------------------------------------------------------------------
+  MOSH_PREDICTION_DISPLAY=adaptive # preset prediction behaviour
+  MOSH_ESCAPE_KEY=<byte>           # move the escape off Ctrl-^
+  MOSH_TITLE_NOPREFIX=1            # calmer terminal titles

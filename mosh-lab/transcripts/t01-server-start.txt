@@ -1,0 +1,13 @@
+$ mosh-server new
+MOSH CONNECT 60001 nIND/kuyuYavvM6V92+oHQ
+
+mosh-server (mosh 1.4.0) [build mosh 1.4.0]
+Copyright 2012 Keith Winstein <mosh-devel@mit.edu>
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+[mosh-server detached, pid = 61082]
+
+$ ss -lunp | grep 60001
+UNCONN 0      0            0.0.0.0:60001      0.0.0.0:*    users:(("mosh-server",pid=61082,fd=4))

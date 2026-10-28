@@ -1,0 +1,26 @@
+site_name: Mosh for Mere Mortals
+site_description: A shell that survives sleep, roaming and bad networks. Connecting with Mosh, understanding its state-sync protocol and local echo, pairing it with SSH and tmux, opening the right firewall ports, and knowing its limits.
+site_url: https://paulsullivan33-dev.github.io/mosh-for-mere-mortals/
+copyright: 'Part of <a href="https://paulsullivan33-dev.github.io/mere-mortals/">For Mere Mortals</a> · Text <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code MIT'
+
+# Guides live at the repo root (nice for GitHub browsing).
+# The deploy workflow copies them into docs/ before building.
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - What Mosh Is: what-mosh-is.md
+  - How Mosh Works: how-mosh-works.md
+  - Installing Mosh: installing-mosh.md
+  - Your First Session: your-first-session.md
+  - Surviving Sleep, Roaming and Bad Networks: surviving-the-network.md
+  - Mosh Day to Day: mosh-day-to-day.md
+  - Mosh and SSH: mosh-and-ssh.md
+  - Firewalls and NAT: firewalls-and-nat.md
+  - Recipes: recipes.md
+  - The Neighbours: the-neighbours.md
+  - Limits: limits.md
+  - Troubleshooting: troubleshooting.md
+  - Glossary: glossary.md
+  - Writing Criteria: criteria.md

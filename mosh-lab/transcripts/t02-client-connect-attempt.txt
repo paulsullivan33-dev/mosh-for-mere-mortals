@@ -1,0 +1,30 @@
+$ MOSH_KEY=<the key printed in t01> mosh-client 127.0.0.1 60001
+
+(run in a terminal window. The client's status line updates in
+place; the distinct messages it showed, in order, were:)
+
+mosh: sendto: Operation not permitted [To quit: Ctrl-^ .]
+Nothing received from server on UDP port 60001. [To quit: Ctrl-^ .]
+... (6 s without contact.) [To quit: Ctrl-^ .]
+... (13 s without contact.) [To quit: Ctrl-^ .]
+Last reply 19 seconds ago. [To quit: Ctrl-^ .]
+mosh did not make a successful connection to 127.0.0.1:60001.
+Please verify that UDP port 60001 is not firewalled and can reach the server.
+(By default, mosh uses a UDP port between 60000 and 61000. The -p option
+selects a specific UDP port number.)
+[mosh is exiting.]
+
+# Why this failed here, and why it is not the program's fault:
+# this build machine refuses ALL UDP sends. A five-line Python
+# check gets the identical refusal on loopback, and again inside
+# a fresh network namespace:
+#
+#   $ python3 -c 'import socket; s=socket.socket(socket.AF_INET,
+#       socket.SOCK_DGRAM); s.sendto(b"ping", ("127.0.0.1", 61099))'
+#   PermissionError: [Errno 1] Operation not permitted
+#
+# So the session could not be completed on this machine. On an
+# ordinary machine, this transcript's symptoms — silence from the
+# server, a rising "without contact" counter, and that final
+# message — are exactly what a firewall dropping UDP looks like,
+# which is why chapter 12 uses them there.
